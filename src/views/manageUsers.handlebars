@@ -1,0 +1,41 @@
+{{> header}}
+
+<div>
+    <h1>Gestión de Usuarios</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td>{{this.username}}</td> <!-- Mostrar el nombre de usuario -->
+            <td>{{this.email}}</td> <!-- Mostrar el email del usuario -->
+            <td>{{this.rol}}</td> <!-- Mostrar el rol del usuario -->
+            <td>
+                <form action="/api/users/{{this._id}}/role" method="POST">
+                    <select name="rol" onchange="this.form.submit()">
+                        <option value="user" {{#ifCond this.rol '==' 'user'}}selected{{/ifCond}}>Usuario</option>
+                        <option value="premium" {{#ifCond this.rol '==' 'premium'}}selected{{/ifCond}}>Premium</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                <form action="/api/users/{{this._id}}" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+</div>
+
